@@ -1,11 +1,10 @@
-import { Client } from 'boardgame.io/react';
-import { TicTacToe } from './Game';
+import { Link } from 'react-router-dom';
 
-import { TicTacToeBoard } from './Board';
 
-const App = Client({
-  game: TicTacToe,
-  board: TicTacToeBoard,
-});
+function App() {
+return(
+    <Link to="/tictactoe">Tic Tac Toe</Link>
+)
+}
 
 export default App;

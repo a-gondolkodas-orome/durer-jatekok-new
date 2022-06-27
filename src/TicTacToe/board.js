@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function TicTacToeBoard({ G, ctx, moves }) {
+export function Board({ G, ctx, moves }) {
   const onClick = (id) => moves.clickCell(id);
 
   let winner = '';
