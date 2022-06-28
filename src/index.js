@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import TicTacToe from './TicTacToe/main';
+import Coin123 from './coin123/main';
 
 const root = document.getElementById('root');
 render(
@@ -13,6 +14,7 @@ render(
     <Routes>
       <Route exact path="/" element={<App />} />
       <Route path="/tictactoe" element={<TicTacToe/>} />
+      <Route path="/coin123" element={<Coin123/>} />
     </Routes>
   </BrowserRouter>
   </React.StrictMode>, 

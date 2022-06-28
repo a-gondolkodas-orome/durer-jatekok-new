@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 
 function App() {
 return(
-    <Link to="/tictactoe">Tic Tac Toe</Link>
+    <div>
+    <Link to="/tictactoe">Tic Tac Toe</Link><br/>
+    <Link to="/coin123">Coin123</Link><br/>
+    </div>
 )
 }
 
