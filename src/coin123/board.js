@@ -1,15 +1,20 @@
 export function Board({ G, ctx, moves }) {
-  const onClick = (id) => moves.clickCell(id);
+  const onClick = () => {
+    let inputValue = parseInt(document.getElementById("step").value)
+    document.getElementById("step").value = null;
+    console.log(inputValue); 
+    moves.increaseNumber(inputValue,typeof inputValue);
+  };
 
   let loser = '';
   if (ctx.gameover) {
     loser =
-        <div id="winner">Loser: {ctx.gameover.loser}</div>
+        <div id="loser">{ctx.gameover.loser}. játékos vesztett.</div>
   }
 
   return (
     <div>
-    <p class="text-justify">
+      <p class="text-justify">
         Ez a játék a XIII. Dürer döntőjén szerepelt E kategóriában.
 
         Károly és Dezső m-ig szeretnének elszámolni, és közben a következő játékot játsszák:
@@ -21,28 +26,28 @@ export function Board({ G, ctx, moves }) {
 
         Az m szám ismeretében te döntheteted el, hogy a kezdő vagy a második játékos bőrébe szeretnél e bújni.
       </p>
-      <div class="flex flex-wrap">
-      <div class="p-1 shrink-0 grow basis-8/12">
-        <table class="m-2 border-collapse">
-            <tr>
-              <th>Szám</th>
-              <th>Cél</th>
-              <th>Tiltott lépés</th>
-            </tr>
-            <tr>
-              <td class="text-center h-36 w-36 border-4 text-8xl">{G.current}</td>
-              <td class="text-center h-36 w-36 border-4 text-8xl">{G.target}</td>
-              <td class="text-center h-36 w-36 border-4 text-8xl">{G.restricted || "-"}</td>
-            </tr>
-          </table>
-            <label for="step"> Következő lépés: </label>
-            <input id="step" type="number" min="1" max="12" v-model="step" class="border-2" />
-            <button
-              class="cta-button"
-            >Lépek</button>
+        <div class="flex flex-wrap">
+        <div class="p-1 shrink-0 grow basis-8/12">
+          <table class="m-2 border-collapse">
+              <tr>
+                <th>Szám</th>
+                <th>Cél</th>
+                <th>Tiltott lépés</th>
+              </tr>
+              <tr>
+                <td class="text-center h-36 w-36 border-4 text-8xl">{G.current}</td>
+                <td class="text-center h-36 w-36 border-4 text-8xl">{G.target}</td>
+                <td class="text-center h-36 w-36 border-4 text-8xl">{G.restricted || "-"}</td>
+              </tr>
+            </table>
+              <label for="step"> Következő lépés: </label>
+              <input id="step" type="number" min="1" max="12" v-model="step" class="border-2" />
+              <button
+                class="cta-button" onClick={() => onClick()}
+              >Lépek</button>
+          </div>
+          {loser}
         </div>
       </div>
-
-    </div>
   );
 }
