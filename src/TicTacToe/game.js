@@ -27,7 +27,7 @@ export const Game = {
         },
 
     ai: {
-        enumerate: ({G, ctx, playerID}) => {
+        enumerate: (G, ctx, playerID) => {
             let moves = [];
             for (let i = 0; i < 9; i++) {
               if (G.cells[i] === null) {

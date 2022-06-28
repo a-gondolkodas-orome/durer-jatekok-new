@@ -10,7 +10,8 @@ export const Game = {
 
     moves: {
         increaseNumber: ({G, ctx, playerID}, numberToAdd) => {
-            if (G.restricted == numberToAdd) {
+            if (![...Array(12).keys()].map(x => ++x).includes(numberToAdd)
+            || G.restricted == numberToAdd) {
               return INVALID_MOVE;
             }
             G.current = G.current + numberToAdd;
@@ -25,14 +26,14 @@ export const Game = {
         },
 
     ai: {
-        enumerate: ({G, ctx, playerID}) => {
-          console.log("what",G)
-            let moves = [{
-              move: 'increaseNumber',
-              args: [...Array(13).keys()].filter((x) => x != 13-G.restricted)
-            }];
-            console.log(moves)
-            return moves;
+        enumerate: (G, ctx, playerID) => {
+          let moves = [];
+          for (let i = 1; i <= 12; i++) {
+            if (13-G.restricted != i) {
+              moves.push({ move: 'increaseNumber', args: [i] });
+            }
+          }
+          return moves
         },
     },
 };
