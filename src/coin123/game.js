@@ -1,7 +1,7 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 
 export const Game = {
-    setup: () => ({ cells: Array(9).fill(null) }),
+    setup: () => ({ current: 0, target: 100, restricted: null }), // TODO: Random
 
     turn: {
         minMoves: 1,
@@ -9,52 +9,30 @@ export const Game = {
       },
 
     moves: {
-        clickCell: ({G, ctx, playerID},cellID) => {
-            if (G.cells[cellID] !== null) {
+        increaseNumber: ({G, ctx, playerID}, numberToAdd) => {
+            if (G.restricted == numberToAdd) {
               return INVALID_MOVE;
             }
-            G.cells[cellID] = ctx.currentPlayer;
+            G.current = G.current + numberToAdd;
+            G.restricted = 13 - numberToAdd;
           }
         },
 
     endIf: ({G, ctx, playerID}) => {
-        if (IsVictory(G.cells)) {
-            return { winner: ctx.currentPlayer };
-        }
-        if (IsDraw(G.cells)) {
-            return { draw: true };
+        if (G.target <= G.current) {
+            return { loser: ctx.currentPlayer };
         }
         },
 
     ai: {
         enumerate: ({G, ctx, playerID}) => {
-            let moves = [];
-            for (let i = 0; i < 9; i++) {
-              if (G.cells[i] === null) {
-                  moves.push({ move: 'clickCell', args: [i] });
-              }
-            }
+          console.log("what",G)
+            let moves = [{
+              move: 'increaseNumber',
+              args: [...Array(13).keys()].filter((x) => x != 13-G.restricted)
+            }];
+            console.log(moves)
             return moves;
         },
     },
 };
-
-  // Return true if `cells` is in a winning configuration.
-function IsVictory(cells) {
-    const positions = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
-      [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]
-    ];
-  
-    const isRowComplete = row => {
-      const symbols = row.map(i => cells[i]);
-      return symbols.every(i => i !== null && i === symbols[0]);
-    };
-  
-    return positions.map(isRowComplete).some(i => i === true);
-}
-  
-// Return true if all `cells` are occupied.
-function IsDraw(cells) {
-    return cells.filter(c => c === null).length === 0;
-}
