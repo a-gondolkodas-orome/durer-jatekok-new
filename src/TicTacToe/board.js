@@ -1,5 +1,3 @@
-import React from 'react';
-
 export function Board({ G, ctx, moves }) {
   const onClick = (id) => moves.clickCell(id);
 
