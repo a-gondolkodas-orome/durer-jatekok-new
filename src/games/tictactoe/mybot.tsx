@@ -25,14 +25,13 @@ class MyBot extends Bot {
         return null;
     }
 
+    // waits 400 ms for UX
+    async wait(): Promise<void> {
+        await new Promise(resolve => setTimeout(resolve, 400));
+    }
+
     async play(state: State<MyGameState>, playerID: string): Promise<{ action: BotAction; metadata?: any; }> {
-        await new Promise<void>(resolve => {
-                setTimeout(() => {
-                    resolve();
-                }
-                , 400);
-            }
-        );
+        await this.wait();
         //const state : State<MyGameState> = _state as State<MyGameState>;
         const cells = state.G.cells;
         // check if player can win

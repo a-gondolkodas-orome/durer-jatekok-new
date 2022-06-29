@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import TicTacToe from './tictactoe/main';
-import SuperstitiousCounting from './superstitious-counting/main';
+import TicTacToe from './games/tictactoe/main';
+import SuperstitiousCounting from './games/superstitious-counting/main';
 
 const root = document.getElementById('root');
 render(
