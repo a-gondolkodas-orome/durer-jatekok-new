@@ -68,18 +68,9 @@ class MyBot extends Bot {
                 }};
             }
         }
-        let possible_moves = cells.filter(cell => cell === null).map((cell, index) => index);
+        let possible_moves = this.enumerate(state.G, state.ctx, playerID);
         let randomIndex = Math.floor(Math.random() * possible_moves.length);
-        return {action: {
-            type: 'MAKE_MOVE',
-            payload: {
-                type: 'clickCell',
-                args: [
-                    [possible_moves[randomIndex]],
-                ],
-                playerID
-            },
-        }};
+        return {action: possible_moves[randomIndex]};
     }
 }
 
