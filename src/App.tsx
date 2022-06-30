@@ -7,6 +7,7 @@ function App() {
     <div>
     <Link to="/tictactoe">Tic Tac Toe</Link><br/>
     <Link to="/superstitious-counting">Coin123</Link><br/>
+    <Link to="/lobby">Lobby (needs running server: <pre>npm run dev:server</pre></Link><br/>
     </div>
   );
 }
