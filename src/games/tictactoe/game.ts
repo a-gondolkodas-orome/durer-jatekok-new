@@ -1,36 +1,75 @@
-import { INVALID_MOVE } from 'boardgame.io/core';
-import type { Game } from "boardgame.io";
+import { INVALID_MOVE, TurnOrder } from 'boardgame.io/core';
+import type { Game, State } from "boardgame.io";
+import { Client } from 'boardgame.io/client';
+import { MyBoard } from './board';
 
 export interface MyGameState {
-  cells: Array<null | string>;
+    cells: Array<null | string>;
+    firstPlayer: number | null;
+    difficulty: string | null;
+    winner: string | null;
+}
+
+
+function chooseNewGameType({G, ctx, playerID}:any, difficulty : string) { // TODO: type
+    G.difficulty = difficulty;
+}
+
+function chooseRoleasd({G, ctx, playerID}:any, firstPlayer : string) { // TODO: type
+    console.log(G)
+    G.firstPlayer = firstPlayer;
 }
 
 export const MyGame : Game<MyGameState> = {
-    setup: () => ({ cells: Array(9).fill(null) }),
+    setup: () => ({ cells: Array(9).fill(null), firstPlayer: null, difficulty: null, winner: null }),
 
     turn: {
         minMoves: 1,
         maxMoves: 1,
-      },
-
-    moves: {
-        clickCell: ({G, ctx, playerID},cellID:number) => {
-            if (G.cells[cellID] !== null) {
-              return INVALID_MOVE;
-            }
-            G.cells[cellID] = ctx.currentPlayer;
-          }
+    },
+    phases: {
+        startNewGame: {
+            moves: { chooseNewGameType },
+            endIf : ({G,ctx, playerID}) => {return G.difficulty !== null},
+            next: "chooseRole",
+            start: true,
         },
-
-    endIf: ({G, ctx, playerID}) => {
-        if (IsVictory(G.cells)) {
-            return { winner: ctx.currentPlayer };
-        }
-        if (IsDraw(G.cells)) {
-            return { draw: true };
-        }
+        chooseRole: {
+            moves: { chooseRoleasd  },
+            endIf: ({G,ctx, playerID}) => {return G.firstPlayer !== null},
+            next: "play",
+            turn: {order: TurnOrder.RESET}
         },
+        play: {
+            moves: {
+                clickCell: ({G, ctx, playerID},cellID:number) => {
+                    if (G.cells[cellID] !== null) {
+                      return INVALID_MOVE;
+                    }
+                    G.cells[cellID] = ctx.currentPlayer;
 
+                    if (IsVictory(G.cells)) {
+                        G.winner = ctx.currentPlayer;
+                    }
+                    if (IsDraw(G.cells)) {
+                        G.winner = "draw";
+                    }
+                },
+            },
+            endIf: ({G,ctx, playerID}) => {return G.winner !== null;},
+            next: "startNewGame",
+            turn: {
+                order: {
+                    first: ({G, ctx}) => G.firstPlayer === 0 ? 0 : 1,
+                    next: ({G, ctx}) => {
+                        console.log(G, ctx)
+                        return (ctx.playOrderPos + 1) % ctx.numPlayers
+                    },
+                },
+                endIf: ({G,ctx, playerID}) => true,
+            },
+        },
+    },
     ai: {
         enumerate: (G, ctx, playerID) => {
             let moves = [];
@@ -63,3 +102,4 @@ function IsVictory(cells : Array<null | string>) {
 function IsDraw(cells : Array<null | string>) {
     return cells.filter(c => c === null).length === 0;
 }
+
