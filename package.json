@@ -23,6 +23,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "dev:server": "nodemon -e js,ts --exec babel-node --extensions \".ts\" --presets=@babel/preset-typescript --plugins=@babel/plugin-transform-modules-commonjs src/server.ts",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
