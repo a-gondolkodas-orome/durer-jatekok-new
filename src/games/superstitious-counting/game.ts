@@ -8,6 +8,10 @@ export interface MyGameState {
 }
 
 export const MyGame : Game<MyGameState> = {
+    name: "superstitious-counting",
+    minPlayers: 2,
+    maxPlayers: 2,
+
     setup: () => ({ current: 0, target: 100, restricted: null }), // TODO: Random
 
     turn: {
