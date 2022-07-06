@@ -10,11 +10,13 @@ export interface MyGameState {
 
 
 function chooseNewGameType({G, ctx, playerID}:any, difficulty : string) { // TODO: type
-    G.difficulty = difficulty;
+  G.difficulty = difficulty;
+  G.cells = Array(9).fill(null);
+	G.firstPlayer = null;
+	G.winner = null;
 }
 
-function chooseRoleasd({G, ctx, playerID}:any, firstPlayer : string) { // TODO: type
-    console.log(G)
+function chooseRole({G, ctx, playerID}:any, firstPlayer : string) { // TODO: type
     G.firstPlayer = firstPlayer;
 }
 
@@ -30,10 +32,11 @@ export const MyGame : Game<MyGameState> = {
             moves: { chooseNewGameType },
             endIf : ({G,ctx, playerID}) => {return G.difficulty !== null},
             next: "chooseRole",
+            turn: {order: TurnOrder.RESET},
             start: true,
         },
         chooseRole: {
-            moves: { chooseRoleasd  },
+            moves: { chooseRole },
             endIf: ({G,ctx, playerID}) => {return G.firstPlayer !== null},
             next: "play",
             turn: {order: TurnOrder.RESET}
@@ -47,10 +50,13 @@ export const MyGame : Game<MyGameState> = {
                     G.cells[cellID] = ctx.currentPlayer;
 
                     if (IsVictory(G.cells)) {
+											console.log(G)
                         G.winner = ctx.currentPlayer;
-                    }
-                    if (IsDraw(G.cells)) {
+                        G.difficulty = null;
+                    } else if (IsDraw(G.cells)) {
+											console.log(G)
                         G.winner = "draw";
+                        G.difficulty = null;
                     }
                 },
             },

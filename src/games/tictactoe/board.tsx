@@ -2,7 +2,7 @@ import { MyGameState } from './game';
 import { BoardProps } from 'boardgame.io/react';
 import { Ctx } from 'boardgame.io';
 
-interface MyGameProps extends BoardProps<MyGameState> {}
+interface MyGameProps extends BoardProps<MyGameState> {};
 
 const getWinner = (ctx: Ctx): string | null => {
   if (!ctx.gameover) return null;
@@ -16,7 +16,19 @@ export function MyBoard({ G, ctx, moves } : MyGameProps) {
   return (
     <div>
       <h1>boardgame.io Typescript Demo</h1>
-
+      <div>
+        <button
+          onClick={() => moves.chooseNewGameType()}
+        >Új játék kezdése</button>
+      </div>
+      <div>
+        <button
+          onClick={() => moves.chooseRole(0)}
+        >Kezdő leszek</button>
+        <button
+          onClick={() => moves.chooseRole(1)}
+        >Második leszek</button>
+      </div>
       <div
         style={{
           display: 'grid',
