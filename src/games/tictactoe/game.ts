@@ -1,7 +1,5 @@
 import { INVALID_MOVE, TurnOrder } from 'boardgame.io/core';
-import type { Game, State } from "boardgame.io";
-import { Client } from 'boardgame.io/client';
-import { MyBoard } from './board';
+import type { Game } from "boardgame.io";
 
 export interface MyGameState {
     cells: Array<null | string>;

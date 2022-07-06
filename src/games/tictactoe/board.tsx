@@ -11,19 +11,10 @@ const getWinner = (ctx: Ctx): string | null => {
 };
 
 export function MyBoard({ G, ctx, moves } : MyGameProps) {
-  const onClick = (id : number) => moves.clickCell(id);
   let winner = getWinner(ctx);
 
-  const cellStyle = {
-    border: '1px solid #555',
-    width: '50px',
-    height: '50px',
-    lineHeight: '50px',
-    textAlign: 'center',
-  };
-
   return (
-    <main>
+    <div>
       <h1>boardgame.io Typescript Demo</h1>
 
       <div
@@ -45,6 +36,6 @@ export function MyBoard({ G, ctx, moves } : MyGameProps) {
       </div>
 
       {winner && <p>{winner}</p>}
-    </main>
+    </div>
   );
 }
