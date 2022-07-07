@@ -1,21 +1,9 @@
-import { Client } from 'boardgame.io/react';
-import { Local } from 'boardgame.io/multiplayer';
 import { MyGame } from './game';
 import { MyBoard } from './board';
+import MyClient from '../../common/myclient';
 import strategy from './strategy';
-import botWrapper from '../../common/botwrapper';
 
-const TicTacToe = Client({
-  game: MyGame,
-  board: MyBoard,
-  multiplayer: Local(
-      {
-        bots: { '1': botWrapper("clickCell",strategy) }
-      }
-    ),
-  numPlayers: 2,
-
-});
+const TicTacToe = MyClient(MyGame,MyBoard,strategy);
 
 export default function() {
   return (
